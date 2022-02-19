@@ -1,19 +1,25 @@
 # mock-ldap-server
-Mock Ldap Server for testing, supports bind and search only
+NodeJS Mock Ldap Server for testing, supports bind and search only. Based on http://ldapjs.org
 
 ## Include in your project
 
-<code>
+```
     "devDependencies": {
         "mock-ldap-server": "github:amoro99/mock-ldap-server"
     }
-</code>
+```
 
 
 ## Usage
-<code>
-const MockLdapServer = require('mock-ldap-server');
 
+Pass in specific ldap object hash to the constructor, or a synchronous function that returns such. 
+The object or function is accessed every time there is a search, there is no caching.
+
+```
+    const MockLdapServer = require('mock-ldap-server');
+    
+    let ldapUrl, ldapServer;
+    
     before(async () => {
         ldapServer = new MockLdapServer('dc=test', {
             alpha : {
@@ -29,12 +35,8 @@ const MockLdapServer = require('mock-ldap-server');
                 description: 'Beta Male'
             }
         });
-        address = await ldapServer.listen();
+        ldapUrl = await ldapServer.listen();
     });
-
-</code>
+```
 
 See code for more.
-
-
-
