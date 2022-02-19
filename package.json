@@ -1,0 +1,27 @@
+{
+  "name": "mock-ldap-server",
+  "version": "1.0.0",
+  "description": "Mock Ldap Server for testing, supports bind and search only",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {
+    "ldapjs": "^2.3.1",
+    "lodash": "3.10.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amoro99/mock-ldap-server.git"
+  },
+  "author": "Andrew Morovati",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amoro99/mock-ldap-server/issues"
+  },
+  "homepage": "https://github.com/amoro99/mock-ldap-server#readme"
+}
