@@ -2,7 +2,6 @@
 const ldap = require('ldapjs');
 const util = require('util');
 const _ = require('lodash');
-const helpers = require('./helpers')
 
 class MockLdapServer {
     /**
@@ -27,9 +26,7 @@ class MockLdapServer {
             } catch (e) {
                 return next(new ldap.OperationsError(e.message));
             }
-        });
-        //assign helper functions to this
-        _.assign(this, helpers(baseDn));
+        })
     }
 
     getUsers() {
@@ -67,4 +64,5 @@ class MockLdapServer {
 
 }
 
-module.exports = MockLdapServer;
+module.exports.MockLdapServer = MockLdapServer;
+module.exports.helpers = require('./helpers');
