@@ -16,14 +16,14 @@ class MockLdapServer {
         this.close = server.close.bind(server);
         this.baseDn = baseDn;
         this.server = server;
-        this.db = db;
         server.bind(baseDn, (req, res) => res.end());
         server.search(baseDn, (req, res, next) => {
-            const users = this.getUsers() || [];
-            const searchEntry = u => _({}).set('attributes', _.omit(u, 'dn')).set('dn', u.dn).value();
             try {
-                users.forEach(u => req.filter.matches(u) ? res.send(searchEntry(u)) : 0);
+                const users = (_.isFunction(db) ? db() : db) || [];
+                const searchEntry = u => _({}).set('attributes', _.omit(u, 'dn')).set('dn', u.dn).value();
+                users.filter(u => req.filter.matches(u, false)).map(searchEntry).forEach(entry => res.send(entry));
                 res.end();
+                return next();
             } catch (e) {
                 return next(new ldap.OperationsError(e.message));
             }
@@ -31,13 +31,6 @@ class MockLdapServer {
         //assign helper functions to this
         _.assign(this, helpers(baseDn));
     }
-
-    getUsers() {
-        if (_.isFunction(this.db)) {
-            return this.db();
-        } else return this.db;
-    }
-
     /**
      *
      * @param port if falsy then will use a random available port
@@ -68,3 +61,4 @@ class MockLdapServer {
 }
 
 module.exports = MockLdapServer;
+
